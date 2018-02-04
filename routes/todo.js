@@ -2,7 +2,7 @@ import express from 'express';
 import TodoController from '../controllers/todo';
 import checkTodoId from '../middleware/check-todo-id';
 
-const todoRouter = express.Router({ mergeParams: true });
+const todoRouter = express.Router();
 
 todoRouter.param('id', checkTodoId);
 
