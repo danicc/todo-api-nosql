@@ -2,10 +2,31 @@ import { assert } from 'chai';
 import request from 'supertest';
 import server from '../../server';
 import TodoModel from '../../models/todo';
+import UserModel from '../../models/user';
 
 const agent = request.agent(server);
+let authorizationHeader = {};
 
 describe('Integration Todos', () => {
+  before((done) => {
+    UserModel.remove({}, () => {
+      // runs before all tests in this block
+      const user = {
+        email: 'test@test.com',
+        displayName: 'test',
+        password: 'test',
+      };
+      agent
+        .post('/api/signup')
+        .send(user)
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.property(res.body, 'token');
+          authorizationHeader = { Authorization: `Bearer ${res.body.token}`, 'Content-Type': 'application/json' };
+          done();
+        });
+    });
+  });
   beforeEach((done) => {
     TodoModel.remove({}, () => {
       done();
@@ -18,6 +39,7 @@ describe('Integration Todos', () => {
     it('it should GET all the todo items', (done) => {
       agent
         .get('/api/todos')
+        .set(authorizationHeader)
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.isArray(res.body.todos);
@@ -40,6 +62,7 @@ describe('Integration Todos', () => {
       todo.save((error, todoStored) => {
         agent
           .get(`/api/todos/${todoStored.id}`)
+          .set(authorizationHeader)
           .send(todoStored)
           .end((err, res) => {
             assert.equal(res.status, 200);
@@ -65,6 +88,7 @@ describe('Integration Todos', () => {
       };
       agent
         .post('/api/todos')
+        .set(authorizationHeader)
         .send(createParams)
         .end((error, res) => {
           assert.equal(res.status, 201);
@@ -83,6 +107,7 @@ describe('Integration Todos', () => {
       };
       agent
         .post('/api/todos')
+        .set(authorizationHeader)
         .send(todoItem)
         .end((err, res) => {
           assert.equal(res.status, 400);
@@ -112,6 +137,7 @@ describe('Integration Todos', () => {
       todoItem.save((error, todoStored) => {
         agent
           .put(`/api/todos/${todoStored.id}`)
+          .set(authorizationHeader)
           .send(updateParams)
           .end((err, res) => {
             assert.equal(res.status, 200);
