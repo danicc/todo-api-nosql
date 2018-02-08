@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon server/index.js --exec babel-node",
     "build": "babel server -d dist",
-    "serve": "node dist/index.js",
+    "serve": "NODE_ENV=production node dist/index.js",
     "test": "NODE_ENV=test mocha --recursive --require babel-core/register"
   },
   "keywords": [],

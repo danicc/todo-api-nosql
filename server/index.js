@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
-import config from '../config';
-import api from '../routes';
+import config from './config';
+import api from './routes';
 
 const env = process.env.NODE_ENV || 'development';
 const { db, port, host } = config[env];
@@ -17,6 +17,7 @@ const dataBaseConnection = mongoose.connection;
 dataBaseConnection.on('error', console.error.bind(console, 'connection error:'));
 dataBaseConnection.on('open', () => {
   app.listen(port, () => {
+    console.log(`Server running on http://${host}:${port}`);
     if (process.env.NODE_ENV === 'development') console.log(`Server running on http://${host}:${port}`);
   });
 });

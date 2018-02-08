@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import request from 'supertest';
 import server from '../../server';
-import TodoModel from '../../models/todo';
-import UserModel from '../../models/user';
+import TodoModel from '../../server/models/todo';
+import UserModel from '../../server/models/user';
 
 const agent = request.agent(server);
 let authorizationHeader = {};

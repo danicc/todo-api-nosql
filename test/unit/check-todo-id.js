@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { assert } from 'chai';
-import checkTodoId from '../../middleware/check-todo-id';
-import TodoModel from '../../models/todo';
+import checkTodoId from '../../server/middleware/check-todo-id';
+import TodoModel from '../../server/models/todo';
 
 describe('Check Todo Id Unit Tests:', () => {
   describe('checkTodoId', () => {
