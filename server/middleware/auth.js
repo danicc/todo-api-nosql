@@ -1,9 +1,5 @@
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-import config from '../config';
-
-const env = process.env.NODE_ENV || 'development';
-const { SECRET_TOKEN } = config[env];
 
 const isAuth = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -11,7 +7,7 @@ const isAuth = (req, res, next) => {
   }
 
   const token = req.headers.authorization.split(' ')[1];
-  return jwt.verify(token, SECRET_TOKEN, (error, payload) => {
+  return jwt.verify(token, process.env.SECRET_TOKEN, (error, payload) => {
     if (error) {
       res.status(500).send('Internal Server Error');
     } else if (payload.exp <= moment().unix()) {

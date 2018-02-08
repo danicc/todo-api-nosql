@@ -1,12 +1,11 @@
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
-import config from '../config';
 import User from '../models/user';
 
-const env = process.env.NODE_ENV || 'development';
-const { SECRET_TOKEN } = config[env];
-
 const createToken = (user) => {
+  console.log('process', process.env.SECRET_TOKEN);
+  console.log('process', process.env.DB_HOST);
+
   const payload = {
     // TODO: should not be the same of the database
     sub: user._id,
@@ -14,7 +13,7 @@ const createToken = (user) => {
     exp: moment().add(14, 'days').unix(),
   };
 
-  return jwt.sign(payload, SECRET_TOKEN);
+  return jwt.sign(payload, process.env.SECRET_TOKEN);
 };
 
 const signUp = (req, res) => {
