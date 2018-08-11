@@ -1,0 +1,26 @@
+{
+  "name": "todo-api-nosql",
+  "scripts": {
+  },
+  "env": {
+    "DB_HOST": {
+      "required": true
+    },
+    "SECRET_TOKEN": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
