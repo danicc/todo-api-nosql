@@ -20,7 +20,7 @@ const dataBaseConnection = mongoose.connection;
 dataBaseConnection.on('error', console.error.bind(console, 'connection error:'));
 dataBaseConnection.on('open', () => {
   app.listen(port, () => {
-    if (process.env.NODE_ENV === 'development') console.log(`Server running on http://${host}:${port}`);
+    if (process.env.NODE_ENV === 'development') console.log(`Server running on http://${host}:${port} test`);
   });
 });
 
